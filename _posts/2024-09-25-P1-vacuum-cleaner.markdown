@@ -55,7 +55,7 @@ The average performance of my algorithm allows it to clean a fairly extensive su
 
 In summary, while there are some limitations to consider, the primary goal of my robot remains thorough cleaning.
 
-Check out my practice on [GitHub][github-p1].
+Check out my [GitHub][github-p1].
 
-[github-p1]: https://github.com/urjc-docencia-robotica-movil/p1-vacuum-cleaner-24-25-avalen2022
+[github-p1]: https://github.com/avalen2022
 
