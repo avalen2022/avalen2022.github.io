@@ -62,7 +62,3 @@ The average performance of my algorithm allows it to clean a fairly extensive su
 
 In summary, while there are some limitations to consider, the primary goal of my robot remains thorough cleaning.
 
-Check out my [GitHub][github-p1].
-
-[github-p1]: https://github.com/avalen2022
-
