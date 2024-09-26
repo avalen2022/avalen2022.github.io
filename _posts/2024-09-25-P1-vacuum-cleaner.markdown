@@ -44,14 +44,19 @@ The average performance of my algorithm allows it to clean a fairly extensive su
 - **First try with random ovals**:
     ![Texto alternativo](/assets/images/Vacuum_cleaner_randomly.png)
 
-- **Perfecting parameters**:
-    ![Texto alternativo](/assets/images/Bastante_bueno.png)
-
-- **Good cleans**:
-    ![Texto alternativo](/assets/images/simplemente_increible.png)
-
 - **Perfect clean**:
     ![Texto alternativo](/assets/images/Vacuum_cleaner_10min.png)
+
+# Videos
+
+- **Examples of dodge algortihm**:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IR6Oea7x71U" frameborder="0" allowfullscreen></iframe>
+
+- **Good clean in 10mins**:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/O0nrnZlj4fE" frameborder="0" allowfullscreen></iframe>
+
+- **Perfect clean in 10min (not fully recorded)**:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wBitpSDGCYM" frameborder="0" allowfullscreen></iframe>
 
 # Conclusion
 
