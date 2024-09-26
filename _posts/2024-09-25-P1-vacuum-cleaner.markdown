@@ -38,7 +38,9 @@ While this approach ensures thorough cleaning, it comes with some trade-offs:
 The average performance of my algorithm allows it to clean a fairly extensive surface area in about 10 minutes without leaving traces behind. Additionally, it incorporates a detection counter that only tracks transitions between states related to the bumper, along with a random modifier for the oval's amplitude, which helps prevent the robot from getting stuck.
 
 # Attempts
-
+- **Try wihout random**:
+    ![Texto alternativo](/assets/images/Without_random.png)
+    
 - **First try with random ovals**:
     ![Texto alternativo](/assets/images/Vacuum_cleaner_randomly.png)
 
