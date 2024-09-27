@@ -9,6 +9,10 @@ categories: jekyll update
 
 My vacuum cleaner algorithm is designed to ensure thorough cleaning of the floor. To achieve this, my algorithm prioritizes area coverage over the speed of exploring multiple rooms.
 
+<div style="text-align: center;">
+![Texto alternativo](/assets/images/vacuum_cleaner_drawio.png)
+</div>
+
 # Cleaning Strategy
 
 - **Oval Cleaning Patterns**: 
