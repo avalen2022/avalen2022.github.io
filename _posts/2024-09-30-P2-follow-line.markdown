@@ -40,18 +40,13 @@ In controlled conditions, the algorithm keeps the car on the line, adjusting ang
 # Attempts
 
 - **P try**:
-    ![Texto alternativo](/assets/images/Without_random.png)
-    
-- **PD try(Just in angular)**:
-    ![Texto alternativo](/assets/images/Vacuum_cleaner_randomly.png)
+    ![Texto alternativo](/assets/images/P.png)
 
 - **PD on all velocities**:
     ![Texto alternativo](/assets/images/Time_pd_all.png)
-
-# Videos
-
-- **Example of the algorithm**:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/IR6Oea7x71U" frameborder="0" allowfullscreen></iframe>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Zg2ssoEZrcg" frameborder="0" allowfullscreen></iframe>
+</div>
 
 # Conclusion
 
