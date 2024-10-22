@@ -1,0 +1,64 @@
+---
+layout: post
+title:  "P3-Obstacle-Avoidance"
+date:   2024-10-22 11:40:00 +0200
+categories: jekyll update
+---
+
+## Obstacle Avoidance (VFF)
+
+This navigation algorithm is based on a Vector Field Histogram (VFF) to guide the robot safely towards its target while avoiding obstacles. The algorithm combines attractive forces towards the target and repulsive forces from obstacles detected by the laser sensor.
+
+<div style="text-align: center;">
+    <img src="/assets/images/vff.png" alt="Vector Field Diagram" />
+</div>
+
+# Avoidance Strategy
+
+- **Relative Coordinates:**
+  First, the target's absolute coordinates are converted to relative ones with respect to the robot. This ensures the robot always navigates in the correct direction, regardless of its current orientation and has everything in its relative coordinates.
+
+- **Attractive Vector:**
+  The attractive vector is calculated from the target's position in space. This vector directs the robot straight towards the target, adjusting its magnitude based on the distance to the target.
+
+- **Repulsive Vector:**
+  The laser sensor data is processed to compute the repulsive vector. Nearby obstacles generate stronger repulsive forces, forcing the robot to steer away and avoid collisions.
+
+- **Combining Vectors (VFF):**
+  The attractive and repulsive vectors are combined to form the resulting vector field, allowing for the adjustment of a scalar that varies the strength of each vector. This vector dictates the robot's linear and angular velocities.
+
+- **Dynamic Adjustment of Repulsive Force:**
+  The repulsive force is dynamically adjusted based on the distance from the attractive vector (target). This allows us to maintain a constant relationship, as if the target is too far away, the repulsive force may lose strength and thus fail to have an effect.
+
+# Limitations
+
+Like other potential field-based algorithms, this one has certain limitations:
+
+1. **Oscillation between Obstacles:**
+   If the robot is surrounded by multiple obstacles, it may oscillate between them due to the repulsive forces from each one.
+
+# Algorithm Performance
+
+In controlled environments, the algorithm continuously adjusts the robot’s linear and angular velocities, keeping it on course towards the target while avoiding obstacles. The linear velocity gradually increases when repulsive forces are minimal but resets if the robot abruptly changes direction.
+
+# Examples
+
+- **Test with close obstacles**:
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Zg2ssoEZrcg" frameborder="0" allowfullscreen></iframe>
+</div>
+
+- **Performance in clear area**:
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Zg2ssoEZrcg" frameborder="0" allowfullscreen></iframe>
+</div>
+
+- **Circuit test**:
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Zg2ssoEZrcg" frameborder="0" allowfullscreen></iframe>
+</div>
+
+# Conclusion
+
+This VFF algorithm enables efficient navigation in dynamic environments, combining attractive and repulsive forces to guide the robot safely towards its destination. However, tuning the force parameters is crucial to optimize its behavior in specific situations, such as highly congested areas or long, clear paths.
+
