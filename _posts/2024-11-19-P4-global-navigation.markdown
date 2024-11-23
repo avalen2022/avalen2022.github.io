@@ -5,7 +5,7 @@ date:   2024-11-19 20:10:00 +0200
 categories: jekyll update
 ---
 
-# Gradient Navigation with Cost Expansion Using BFS: A Detailed Explanation
+# Gradient Navigation with Cost Expansion Using BFS
 
 This blog describes how to implement a **gradient navigation system** for a mobile robot, combining two approaches: **cost expansion with BFS** and **gradient navigation**. The system enables the robot to move efficiently towards a target, avoiding obstacles, while continuously following the path of least cost dynamically calculated.
 
