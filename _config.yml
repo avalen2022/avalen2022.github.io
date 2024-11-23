@@ -18,10 +18,10 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Mobile Robotics Blog
+title: Robotics Software Blog
 email: avalen2022@alumnos.urjc.es
 description: >- # this means to ignore newlines until "baseurl:"
-  This site is dedicated to blog my practices of Mobile Robotics.
+  This site is dedicated to documenting my practices as a Robotics Software Engineering student. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://avalen2022.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: avalen2022

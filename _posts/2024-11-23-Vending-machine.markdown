@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "P4-Global-Navigation"
-date:   2024-11-19 20:10:00 +0200
-categories: robotica-movil
+title:  "P1-Vending-Machine"
+date:   2024-11-23 17:10:00 +0200
+categories: sistemas-empotrados
 ---
 
 # Gradient Navigation with Cost Expansion Using BFS
