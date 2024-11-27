@@ -26,13 +26,17 @@ Instead of planning an entire path before starting, this approach combines **BFS
 
 The environment map, loaded from a grayscale image, represents free areas (value 255) and obstacles (value 0). This map is converted into a **cost grid**, where the cost of each cell is determined by its distance from the obstacles.
 
-### 2. Obstacle Inflation
+### 2. Cost Expansion with BFS
+
+To calculate the cost map, **BFS** is used, starting from the target and expanding backwards to the robot. The idea is to assign a cost to each cell that indicates the minimum distance to the target, with the cost being 0 for the destination cell.
+
+![Animación de ejemplo](/assets/expansion.gif)
+
+### 3. Obstacle Inflation
 
 **Obstacle inflation** is applied to ensure that the robot does not get too close to obstacles. This process increases the cost of cells near obstacles, creating a "safety zone" around them. The `MAX_INFLATION` parameter controls the size of this zone.
 
-### 3. Cost Expansion with BFS
-
-To calculate the cost map, **BFS** is used, starting from the target and expanding backwards to the robot. The idea is to assign a cost to each cell that indicates the minimum distance to the target, with the cost being 0 for the destination cell.
+![Animación de ejemplo](/assets/gif.gif)
 
 #### Expansion Process:
 
