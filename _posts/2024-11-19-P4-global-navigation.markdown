@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "P4-Global-Navigation"
-date:   2024-11-19 20:10:00 +0200
+date:   2024-11-27 11:45:00 +0200
 categories: robotica-movil
 ---
 
