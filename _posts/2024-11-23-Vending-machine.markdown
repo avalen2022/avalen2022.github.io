@@ -188,7 +188,9 @@ En este **"subestado"** del **ADMIN**, se hace uso de todos los ejes del **joyst
 
 Además cuenta con dinamismo de imagen, ya que al seleccionar el precio este parpadea como símbolo de elección.
 
-- **VIDEO MODIFICACIÓN**
+<div style="text-align: center;">
+    <img src="/assets/Modificar_precio.gif" alt="Animación de ejemplo">
+</div>
 
 #### **6. Interrupciones De Botones**
 
