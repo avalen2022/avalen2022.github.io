@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "P1-Vending-Machine"
+title:  "P3-Vending-Machine"
 date:   2024-11-30 12:10:00 +0200
 categories: sistemas-empotrados
 ---
