@@ -57,6 +57,8 @@ To optimize performance, several parameters were fine-tuned:
 - **Sensor Noise:** Probabilistic models were used to handle noisy sensor data and improve robustness.  
 - **Roulette Wheel Noise:**  
   To ensure diversity during the **resampling phase**, Gaussian noise was added to the particles selected by the **roulette wheel algorithm**. This prevents particle depletion and avoids excessive clustering, particularly in environments with ambiguous sensor data or multiple hypotheses.  
+ - **Multiprocessing for Virtual Laser Computation:**  
+  To improve computational efficiency, **multiprocessing** was utilized for the computation of virtual laser scans. Each particle’s sensor measurement was calculated in parallel, leveraging multiple CPU cores. This reduced processing time, enabling real-time performance even with high particle counts.
 
 # **Videos**
 
