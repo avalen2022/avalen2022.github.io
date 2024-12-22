@@ -22,6 +22,10 @@ As the robot moves, the particles are updated based on the motion commands. Rand
 #### 3. Sensor Update  
 For each particle, simulated sensor readings are compared to actual sensor measurements. This comparison helps determine how likely each particle is to represent the robot’s true position. Particles that closely match the real sensor data are assigned higher weights.
 
+Probability formula:
+
+![Animación de ejemplo](/assets/images/formula.png)
+
 #### 4. Resampling  
 Particles are resampled based on their weights, giving preference to the most likely hypotheses. Low-probability particles are discarded, while high-probability particles are duplicated. This step effectively concentrates the particles around the areas where the robot is most likely located.
 
@@ -63,8 +67,11 @@ To optimize performance, several parameters were fine-tuned:
 # **Videos**
 
 - **MCL**:
-<div style="text-align: center;">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PSR3bDRM7eE" frameborder="0" allowfullscreen></iframe>
+<div style="display: flex; justify-content: center;">
+  <video width="640" height="360" controls>
+    <source src="{{ '/_assets/videos/montecarlo_localization.webm' | relative_url }}" type="video/webm">
+    Tu navegador no soporta videos en formato WebM.
+  </video>
 </div>
 
 # **Conclusion**
