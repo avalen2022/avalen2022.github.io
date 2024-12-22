@@ -67,11 +67,8 @@ To optimize performance, several parameters were fine-tuned:
 # **Videos**
 
 - **MCL**:
-<div style="display: flex; justify-content: center;">
-  <video width="640" height="360" controls>
-    <source src="{{ '/_assets/videos/montecarlo_localization.webm' | relative_url }}" type="video/webm">
-    Tu navegador no soporta videos en formato WebM.
-  </video>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PSR3bDRM7eE" frameborder="0" allowfullscreen></iframe>
 </div>
 
 # **Conclusion**
