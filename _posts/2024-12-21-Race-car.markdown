@@ -114,6 +114,14 @@ de asegurarnos de publicar cada 4s un `ping`, pero el hecho de que incorporar **
     - La comunicación entre el Arduino y el ESP32 se maneja mediante el puerto serie y para ello no se requiere la complejidad de FreeRTOS.
     - El ESP32 utiliza su capacidad WiFi para enviar los datos a un servidor MQTT, gestionando de manera eficiente la conexión y retransmisión de mensajes.
 
+## **Video**
+<div style="display: flex; justify-content: center;">
+  <video width="500" controls>
+    <source src="{{ '/assets/videos/race-car.mp4' | relative_url }}" type="video/webm">
+    Tu navegador no soporta videos en formato WebM.
+  </video>
+</div>
+
 
 ## **Conclusión**
 
