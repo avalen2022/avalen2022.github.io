@@ -128,7 +128,9 @@ de asegurarnos de publicar cada 4s un `ping`, pero el hecho de que incorporar **
 </div>
 
 ## **ROSBAG**
-<a href="https://drive.google.com/drive/folders/1VN2PsVczo4zJnjfGJdyYVtV7DMUfw1vY?usp=sharing" target="_blank">Ver archivos en Google Drive</a>
+<div style="text-align: center;">
+  <a href="https://drive.google.com/drive/folders/1VN2PsVczo4zJnjfGJdyYVtV7DMUfw1vY?usp=sharing" target="_blank">Ver archivos en Google Drive</a>
+</div>
 
 ## **Conclusión**
 
