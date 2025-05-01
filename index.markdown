@@ -10,5 +10,5 @@ title: Blogs
 
 <h2><a href="/sistemas-empotrados/">Sistemas Empotrados</a></h2>
 
-<h2><a href="/modelado-simulacion/">Sistemas Empotrados</a></h2>
+<h2><a href="/modelado-simulacion/">Modelado Y Simulación</a></h2>
 <br>
