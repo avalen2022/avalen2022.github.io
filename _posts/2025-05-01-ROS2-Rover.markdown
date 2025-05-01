@@ -58,4 +58,4 @@ Aquí se ve cuándo el brazo empieza a actuar. Los picos coinciden con el moment
 
 ## **Conclusión**
 
-Este sistema combina detección de líneas mediante sensores infrarrojos, control PD para precisión en el movimiento y comunicación MQTT para supervisión remota. La integración entre Arduino y ESP32 garantiza un sistema eficiente y escalable para futuras mejoras. El sistema es adaptable y permite la incorporación de nuevas funciones como seguimiento de múltiples rutas, reconocimiento de patrones y control por voz.
+En esta práctica se ha realizado la integración del robot en Gazebo y su control mediante ROS 2. Además, se ha simulado una tarea de recogida y transporte de un objeto utilizando un brazo SCARA, analizando el comportamiento del sistema a través de gráficas de aceleración, posición y esfuerzo.
