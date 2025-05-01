@@ -29,7 +29,7 @@ En una primera fase se realizó la modelación del Rover en Blender, para su pos
 
 
 Aquí se puede ver cómo cambia la aceleración del rover a lo largo del movimiento. Al principio los valores son bastante estables, pero en el momento en que el rover se mueve hacia atrás y hace maniobras para posicionarse, empiezan a aparecer picos. Los picos más grandes se ven cuando el robot avanza con el cubo ya dentro, que es cuando más se nota el peso y los pequeños baches o ajustes del terreno.
-Se nota totalmente, cuando el robot esta parado y solamente le influyen las fuerzas correspondientes a las físicas, como por ejemplo la gravedad en el eje z.
+Se nota totalmente, cuando el robot esta parado y solamente le influyen las fuerzas correspondientes a las físicas, como por ejemplo la gravedad en el **eje z**.
 
 - **Grafo De Posicion**
 ![Animación de ejemplo](/assets/images/grafico_posicion.png)
