@@ -35,7 +35,7 @@ En una primera fase se realizó la modelación del Rover en Blender, para su pos
 ## **Video**
 <div style="display: flex; justify-content: center;">
   <video width="500" controls>
-    <source src="{{ '/assets/videos/danieljr_rover.mp4' | relative_url }}" type="video/webm">
+    <source src="{{ '/assets/videos/danieljr_rover_.mp4' | relative_url }}" type="video/webm">
     Tu navegador no soporta videos en formato WebM.
   </video>
 </div>
