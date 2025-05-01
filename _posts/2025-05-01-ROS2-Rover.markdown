@@ -1,0 +1,135 @@
+---
+layout: post
+title:  "ROS2-Rover"
+date:   2025-05-01 10:00:00 +0200
+categories: modelado-simulacion
+---
+
+## P4 SmartCar FollowLine
+
+Este proyecto describe el desarrollo de un coche seguidor de línea equipado con sensores infrarrojos y comunicación MQTT mediante un ESP32. El Arduino controla los motores y lee los sensores, mientras que el ESP32 recibe la información por puerto serie y la retransmite a un servidor MQTT para monitoreo remoto.
+
+---
+
+## **Componentes Utilizados**
+
+- **Sensores infrarrojos:** Detectan la línea mediante valores analógicos.
+- **Motores de corriente continua (DC):** Controlados mediante señales analógicas PWM para ajustar velocidad y dirección.
+- **ESP32:** Encargado de la comunicación WiFi y MQTT.
+- **Arduino UNO:** Procesa los datos de los sensores y controla los motores.
+- **LED RGB:** Proporciona retroalimentación visual sobre el estado del sistema.
+- **Sensor ultrasónico (HC-SR04):** Detecta obstáculos en el camino.
+
+---
+
+## **Detección de Línea con Sensores Infrarrojos**
+
+Los sensores infrarrojos detectan la intensidad de luz reflejada, proporcionando un valor analógico. Este valor se compara con un umbral predefinido para determinar si el sensor está sobre la línea o fuera de ella.
+
+**Configuración de Sensores:**
+- **Left**: `A2`
+- **Mid**: `A1`
+- **Right**: `A0`
+
+Se define un umbral (`VALUE_LINE`) que determina si el valor leído está dentro del rango esperado para la línea. Este valor puede ajustarse experimentalmente según el entorno de operación.
+
+---
+
+## **Control de Motores**
+
+El sistema utiliza un control proporcional-derivativo (**PD**) para ajustar la velocidad de los motores en función del error calculado.
+
+**Errores y Corrección:**
+- El error se basa en la diferencia entre los sensores laterales (izquierda y derecha).
+- Fórmula del error: `error = (valor_derecha - valor_izquierda)`.
+- Se aplica una corrección proporcional definida en los parametros `KP` y `KD`.
+
+**Control de Velocidad:**
+La velocidad de los motores se ajusta usando `analogWrite` para generar señales **PWM**, permitiendo un control suave y preciso. Por ejemplo:
+```c++
+left_speed = base_speed + (KP * error + KD * (error - last_error));
+right_speed = base_speed - (KP * error + KD * (error - last_error));
+```
+
+---
+
+## **Gestión de Obstáculos**
+
+Un sensor ultrasónico detecta obstáculos y detiene el coche si la distancia detectada es inferior a un umbral seguro. Además, se envían mensajes de estado al **ESP32**, que posteriormente los retransmite al servidor **MQTT**.
+
+**Ejemplo de Código:**
+```c++
+if (ultraSound->getDistance() < 12 && ultraSound->getDistance() > 1) {
+    analogWrite(PIN_Motor_PWMA, 0);
+    analogWrite(PIN_Motor_PWMB, 0);
+```
+
+---
+
+## **Comunicación entre Arduino y ESP32**
+
+La comunicación entre el **Arduino** y el **ESP32** se realiza mediante el puerto serie. El **Arduino** envía información en formato JSON al **ESP32**, que posteriormente la envía a un servidor **MQTT**.
+
+### **Proceso de Comunicación:**
+1. **Arduino:**
+   - Envía mensajes JSON como:
+     - `{"line": 1}` para pérdida de línea.
+     - `{"obst": distancia}` para obstáculos.
+2. **ESP32:**
+   - Recibe los mensajes del Arduino por el puerto serie.
+   - Los retransmite al servidor MQTT mediante el protocolo de publicación y suscripción.
+   ```c++
+        mqttClient.beginMessage(topic);        mqttClient.beginMessage(topic);
+        mqttClient.print(get_json("\"START_LAP\"", -1, -1, -1.00));
+        mqttClient.endMessage();
+        mqttClient.print(get_json("\"START_LAP\"", -1, -1, -1.00));
+        mqttClient.endMessage();
+   ```
+3. **Servidor MQTT:**
+   - Procesa los datos para monitoreo y control remoto.
+
+---
+
+## **Indicadores LED RGB**
+
+Los LEDs RGB proporcionan retroalimentación visual en tiempo real:
+- **Verde:** Sobre la línea.
+- **Rojo:** Fuera de la línea.
+
+---
+
+## **Especificaciones del código**
+En este proyecto, no se ha utilizado **FreeRTOS** por varias razones. A pesar de que el **Arduino UNO** es compatible con este sistema operativo, el proyecto no requiere un manejo complejo de múltiples tareas concurrentes. La funcionalidad principal del coche seguidor de línea (lectura de sensores, control de motores, y comunicación **MQTT**) se puede gestionar de manera eficiente utilizando un único hilo de ejecución en el **Arduino** y en el **ESP32**. Si que tenemos tareas con prioridades especificas como el hecho
+de asegurarnos de publicar cada 4s un `ping`, pero el hecho de que incorporar **FreeRTOS** conlleva una perdida de un 20-30% del computo hace que no sea tan prescindible. Creemos que con un buen **PD**, o cualquier controlador optimo para el sistema, hará que las vueltas sean las más rápidas.
+
+- **Arduino**:
+    - El código de control de motores y sensores se ejecuta en un bucle principal sin necesidad de un sistema operativo en tiempo real.
+    - El procesamiento de los valores de los sensores y el ajuste de la velocidad de los motores se realiza en condiciones dentro del bucle principal, lo cual es suficiente para garantizar un control preciso y oportuno.
+    - Se usa dos condicionantes principales que marcan si estás dentro de la linea o, totalmente perdido. Sinónimo de `In Line` o `Search Line`.
+    - El sensor ultrasónico tiene un thread asociado que se llama cada **12ms**, que realiza una toma de medición, accediendo a el mediante `ultraSound->getDistance()`.
+    - El `ping` está incorporado dentro de un thread llamado cada **4000ms**.
+    - El código esta totalmente pensado para si detecta un obstáculo pararse y mandar todo lo relacionado con `END_LAP`, pero si quitamos el obstáculo se vuelve a hacer otra vuelta nueva.
+
+- **ESP32**:
+    - La comunicación entre el Arduino y el ESP32 se maneja mediante el puerto serie y para ello no se requiere la complejidad de FreeRTOS.
+    - El ESP32 utiliza su capacidad WiFi para enviar los datos a un servidor MQTT, gestionando de manera eficiente la conexión y retransmisión de mensajes.
+
+![Animación de ejemplo](/assets/images/grafico_aceleracion.png)
+![Animación de ejemplo](/assets/images/grafico_posicion.png)
+![Animación de ejemplo](/assets/images/grafico_gasto_parcial.png)
+![Animación de ejemplo](/assets/images/Captura%20desde%202025-05-01%2018-44-34.png)
+
+## **Video**
+<div style="display: flex; justify-content: center;">
+  <video width="500" controls>
+    <source src="{{ '/assets/videos/race-car.mp4' | relative_url }}" type="video/webm">
+    Tu navegador no soporta videos en formato WebM.
+  </video>
+</div>
+
+## **ROSBAG**
+https://drive.google.com/drive/folders/1VN2PsVczo4zJnjfGJdyYVtV7DMUfw1vY?usp=sharing
+
+## **Conclusión**
+
+Este sistema combina detección de líneas mediante sensores infrarrojos, control PD para precisión en el movimiento y comunicación MQTT para supervisión remota. La integración entre Arduino y ESP32 garantiza un sistema eficiente y escalable para futuras mejoras. El sistema es adaptable y permite la incorporación de nuevas funciones como seguimiento de múltiples rutas, reconocimiento de patrones y control por voz.
