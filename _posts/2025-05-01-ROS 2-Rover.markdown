@@ -43,6 +43,17 @@ En esta gráfica se refleja claramente cuándo el rover da marcha atrás y luego
 
 Aquí se ve cuándo el brazo empieza a actuar. Los picos coinciden con el momento en que baja para agarrar el cubo y luego lo sube. Hay una parte en la que la fuerza baja un poco, lo que se debe a cuando ya tiene el cubo asegurado y está en movimiento más suave o en reposo momentáneo. Después vuelve a haber fuerza cuando el brazo termina de subir el cubo y lo coloca en el compartimento.
 
+## **Camaras**
+- **Front Camera**
+<div style="display: flex; justify-content: center;">
+    <img src="/assets/images/front_camera.png" alt="Imagen de ejemplo">
+</div>
+
+- **Gripper Camera**
+<div style="display: flex; justify-content: center;">
+    <img src="/assets/images/gripper_camera.png" alt="Imagen de ejemplo">
+</div>
+
 ## **Video**
 <div style="display: flex; justify-content: center;">
   <video width="500" controls>
