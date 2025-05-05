@@ -39,7 +39,7 @@ Se nota totalmente, cuando el robot esta parado y solamente le influyen las fuer
 En esta gráfica se refleja claramente cuándo el rover da marcha atrás y luego empieza a moverse con el cubo ya dentro. Algunas ruedas tienen más movimiento que otras, debido a las pequeñas correcciones para posicionar el **scara** encima del cubo, y después para salir del sitio.
 
 - **Grafo De Gasto**
-![Animación de ejemplo](/assets/images/grafico_gasto_parcial.png)
+![Animación de ejemplo](/assets/images/grafico_gasto_parcial_.png)
 
 Aquí se ve cuándo el brazo empieza a actuar. Los picos coinciden con el momento en que baja para agarrar el cubo y luego lo sube. Hay una parte en la que la fuerza baja un poco, lo que se debe a cuando ya tiene el cubo asegurado y está en movimiento más suave o en reposo momentáneo. Después vuelve a haber fuerza cuando el brazo termina de subir el cubo y lo coloca en el compartimento.
 
