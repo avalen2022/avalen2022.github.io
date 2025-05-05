@@ -41,7 +41,19 @@ En esta gráfica se refleja claramente cuándo el rover da marcha atrás y luego
 - **Grafo De Gasto**
 ![Animación de ejemplo](/assets/images/grafico_gasto_parcial_.png)
 
-Aquí se ve cuándo el brazo empieza a actuar. Los picos coinciden con el momento en que baja para agarrar el cubo y luego lo sube. Hay una parte en la que la fuerza baja un poco, lo que se debe a cuando ya tiene el cubo asegurado y está en movimiento más suave o en reposo momentáneo. Después vuelve a haber fuerza cuando el brazo termina de subir el cubo y lo coloca en el compartimento.
+En este gráfico se observa claramente el comportamiento del brazo SCARA durante una tarea de manipulación, reflejado en el gasto parcial (asociado a la fuerza en las articulaciones).
+
+- Al inicio, el valor es bajo y estable, indicando que el brazo aún no ha comenzado a interactuar físicamente con el entorno.
+
+- Luego, hay un primer aumento de fuerza, que corresponde al momento en que el brazo se mueve hacia atrás para posicionarse y alinearse sobre el cubo.
+
+- A partir de ahí, se observa un pico más pronunciado: esto coincide con el descenso del brazo hacia el cubo. La fuerza aumenta al encontrarse con resistencia al hacer contacto con el objeto.
+
+- Posteriormente, se mantiene una fuerza elevada y algo estable. Esta fase representa cuando el brazo sostiene el cubo, manteniendo la pinza cerrada mientras se eleva y lo transporta hacia el compartimento de destino.
+
+- A mitad del gráfico se nota una ligera caída temporal en la fuerza, lo que se puede asociar a un momento de menor esfuerzo, probablemente al finalizar el levantamiento o en un punto de movimiento más controlado y suave.
+
+- Finalmente, se observa otro pico cuando el brazo desciende para colocar el cubo. La fuerza vuelve a aumentar al soltar el objeto, y luego cae bruscamente cuando finaliza la acción y el brazo queda en reposo.
 
 ## **Camaras**
 - **Front Camera**
