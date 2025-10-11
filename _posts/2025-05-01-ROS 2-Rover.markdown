@@ -2,7 +2,7 @@
 layout: post
 title:  "ROS 2-Rover"
 date:   2025-05-01 10:00:00 +0200
-categories: modelado-simulacion
+categories: modelating-simulation
 ---
 
 ## Modelating Rover on ROS 2

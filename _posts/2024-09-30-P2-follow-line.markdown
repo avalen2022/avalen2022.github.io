@@ -2,7 +2,7 @@
 layout: post
 title:  "P2-Follow-line"
 date:   2024-09-30 9:22:00 +0200
-categories: robotica-movil
+categories: mobile-robotic
 ---
 ## Detect and Follow the Red Line
 

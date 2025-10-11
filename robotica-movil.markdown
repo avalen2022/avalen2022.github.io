@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Robótica Móvil
-permalink: /robotica-movil/
+title: Mobile Robotic
+permalink: /mobile-robotic/
 ---
 
-<h1>Posts de Robótica Móvil</h1>
+<h1>Mobile Robotics Posts</h1>
 <ul>
   {% for post in site.posts %}
-    {% if post.categories contains "robotica-movil" %}
+    {% if post.categories contains "mobile-robotic" %}
       <li>
         <a href="{{ post.url }}">{{ post.title }}</a> 
         <span>({{ post.date | date: "%d %b %Y" }})</span>

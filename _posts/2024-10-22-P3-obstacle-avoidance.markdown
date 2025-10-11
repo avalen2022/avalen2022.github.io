@@ -2,7 +2,7 @@
 layout: post
 title:  "P3-Obstacle-Avoidance"
 date:   2024-10-22 11:40:00 +0200
-categories: robotica-movil
+categories: mobile-robotic
 ---
 
 ## Obstacle Avoidance (VFF)

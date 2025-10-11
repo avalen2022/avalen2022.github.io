@@ -2,7 +2,7 @@
 layout: post
 title:  "P5-Monte-Carlo-Localization"
 date:   2024-12-21 9:30:00 +0200
-categories: robotica-movil
+categories: mobile-robotic
 ---
 
 # **Monte Carlo Localization (MCL)**

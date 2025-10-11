@@ -1,13 +1,13 @@
 ---
 layout: default
 title: Modelating Y Simulation Robots
-permalink: /modelado-simulacion/
+permalink: /modelating-simulation/
 ---
 
-<h1>Posts de Modelado Y Simulación de Robots</h1>
+<h1>Modelating And Simulation Robots Posts</h1>
 <ul>
   {% for post in site.posts %}
-    {% if post.categories contains "modelado-simulacion" %}
+    {% if post.categories contains "modelating-simulation" %}
       <li>
         <a href="{{ post.url }}">{{ post.title }}</a> 
         <span>({{ post.date | date: "%d %b %Y" }})</span>
