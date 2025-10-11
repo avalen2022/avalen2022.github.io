@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Modelating Y Simulation Robots
-permalink: /modelado-simulacion/
+title: Service Robotic
+permalink: /Service-Robotic/
 ---
 
-<h1>Posts de Modelado Y Simulación de Robots</h1>
+<h1>Posts de Robótica Móvil</h1>
 <ul>
   {% for post in site.posts %}
-    {% if post.categories contains "modelado-simulacion" %}
+    {% if post.categories contains "service-robotic" %}
       <li>
         <a href="{{ post.url }}">{{ post.title }}</a> 
         <span>({{ post.date | date: "%d %b %Y" }})</span>
