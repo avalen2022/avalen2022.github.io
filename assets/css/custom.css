@@ -1,0 +1,6 @@
+nav a[href="/sistemas-empotrados/"] {
+  display: inline-block;
+  white-space: normal;
+  line-height: 1.2em;
+  vertical-align: top; /* opcional, para alinear con los demás enlaces */
+}

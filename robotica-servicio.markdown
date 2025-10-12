@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Service Robotics
-permalink: /Service-Robotics/
+permalink: /service-robotics/
 ---
 
 <h1>Posts de Robótica Móvil</h1>
