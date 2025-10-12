@@ -4,7 +4,7 @@ title: Service Robotics
 permalink: /service-robotics/
 ---
 
-<h1>Posts de Robótica Móvil</h1>
+<h1>Service Robotics Posts</h1>
 <ul>
   {% for post in site.posts %}
     {% if post.categories contains "service-robotics" %}
