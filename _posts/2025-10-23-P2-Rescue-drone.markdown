@@ -23,18 +23,18 @@ El sistema integra varios módulos que trabajan de forma coordinada:
 - **Control de Vuelo Autónomo**: Seguimiento de puntos de referencia con control de posición y orientación.
 - **Visión Artificial**: Detección de rostros humanos utilizando un clasificador en cascada.
 - **Gestión de Estados**: Transición automática entre fases de despegue, exploración, retorno y aterrizaje.
-- **Supervisión Temporal**: Retorno automático al punto base tras un tiempo máximo de operación.
+- **Supervisión Temporal**: Retorno automático al punto base tras el agotamiento de la bateria.
 
 ## **Planificación del Barrido**
 
-El área de búsqueda se estructura como un cuadrado definido por una coordenada inicial y un tamaño lateral.  
+El área de búsqueda se estructura como un cuadrado definido por una coordenada inicial, que se posicionara en el centro, y un tamaño lateral.  
 El dron genera un conjunto de puntos equidistantes que cubren toda la superficie, alternando la dirección de exploración entre filas para optimizar la trayectoria y evitar desplazamientos innecesarios.  
 
 El patrón de vuelo garantiza cobertura completa con una altura constante y un ángulo de orientación calculado hacia cada nuevo objetivo. Cada punto se considera alcanzado cuando la distancia con respecto al dron es inferior a un umbral de tolerancia.
 
 ## **Conversión Geográfica**
 
-Las coordenadas de los puntos clave, como la posición del barco base y la zona de rescate, se definen en formato de grados, minutos y segundos, y son convertidas a coordenadas cartesianas sobre una proyección local.  
+Las coordenadas de los puntos clave, como la posición del barco base y la zona de rescate, se definen en formato de grados, minutos y segundos**(DMS)** , y son convertidas a distancias a lo largo de ejes**(UTM)**, para luego pasarlo a coordenadas cartesianas.
 Esta conversión permite calcular distancias y direcciones precisas mediante trigonometría esférica, tomando como radio de referencia el terrestre.
 
 ## **Estados del Sistema**
@@ -42,7 +42,7 @@ Esta conversión permite calcular distancias y direcciones precisas mediante tri
 El dron opera de forma secuencial según un conjunto de estados definidos:
 
 1. **TAKEOFF**  
-   El dron despega hasta una altura de operación predefinida. Dependiendo del estado de carga o si se ha activado una interrupción, pasa a planificar o a retomar la búsqueda.
+   El dron despega hasta una altura de operación predefinida. Dependiendo del estado de recarga o si se ha activado una interrupción, pasa a planificar o a retomar la búsqueda.
 
 2. **PLANIFICATE**  
    Se calcula la posición del área de rescate a partir de coordenadas geográficas y se genera el patrón cuadrado de exploración.
@@ -52,7 +52,7 @@ El dron opera de forma secuencial según un conjunto de estados definidos:
    Se utilizan rotaciones de la imagen y filtrados en el espacio de color HSV para reducir falsos positivos y mejorar la robustez ante variaciones de iluminación.
 
 4. **RETURN**  
-   Una vez completada la búsqueda o si se activa el temporizador de misión, el dron regresa automáticamente al punto base, siguiendo la dirección inversa de vuelo y ajustando su orientación hacia la base.
+   Una vez completada la búsqueda o si se activa la señal de bateria, el dron regresa automáticamente al punto base, siguiendo la dirección de vuelo y ajustando su orientación hacia la base.
 
 5. **LAND**  
    El dron inicia el procedimiento de aterrizaje controlado. Tras verificar la posición y mantener la estabilidad durante un tiempo mínimo, se ejecuta el aterrizaje final.
@@ -74,7 +74,7 @@ Las posiciones detectadas se almacenan en una lista interna que asocia las coord
 
 ## **Gestión de Interrupciones y Retorno Automático**
 
-El sistema dispone de un temporizador de seguridad que limita la duración de la misión.  
+El sistema dispone de un temporizador de seguridad que limita la duración de la misión, para simular desgaste de batería.  
 Si se supera el tiempo establecido o se detecta un evento crítico, se activa una interrupción que fuerza la transición al estado de retorno.  
 Esta medida garantiza que el dron conserve suficiente batería para completar el aterrizaje con seguridad.
 
