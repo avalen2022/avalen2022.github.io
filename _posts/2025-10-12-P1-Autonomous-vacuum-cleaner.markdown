@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "P6-Autonomous-Vacuum-Cleaner-Grid"
+title:  "P1-Autonomous-Vacuum-Cleaner-Grid"
 date:   2025-10-12 11:00:00 +0200
 categories: service-robotics
 ---
