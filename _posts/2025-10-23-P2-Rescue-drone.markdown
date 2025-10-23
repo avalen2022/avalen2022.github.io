@@ -1,95 +1,95 @@
 ---
-layout: post
-title:  "P2-Rescue-drone"
-date:   2025-10-23 11:00:00 +0200
-categories: service-robotics
+layout: post  
+title: "P2-Rescue-drone"  
+date: 2025-10-23 11:00:00 +0200  
+categories: service-robotics  
 ---
 
 # **Autonomous Search and Rescue Drone**
 
-Este proyecto presenta la implementación de un sistema de **búsqueda y rescate autónomo** para un dron, diseñado para explorar un área definida, localizar personas mediante visión artificial y regresar automáticamente a su base al finalizar la misión o ante condiciones críticas.  
+This project presents the implementation of an **autonomous search and rescue system** for a drone, designed to explore a defined area, locate people through computer vision, and automatically return to its base upon mission completion or under critical conditions.  
 
-El objetivo principal es garantizar una exploración sistemática y eficiente del entorno, combinando planificación geométrica, control de vuelo y detección visual mediante procesamiento de imágenes.
+The main objective is to ensure systematic and efficient exploration of the environment by combining geometric planning, flight control, and visual detection through image processing.
 
 <div style="text-align: center;">
     <img src="/assets/images/drone_sweep.png" alt="Rescue Drone Pattern" />
 </div>
 
-## **Estrategia General**
+## **General Strategy**
 
-El sistema integra varios módulos que trabajan de forma coordinada:
+The system integrates several coordinated modules:
 
-- **Planificación de Ruta**: Generación de una trayectoria en forma de barrido cuadrado sobre el área de búsqueda.
-- **Control de Vuelo Autónomo**: Seguimiento de puntos de referencia con control de posición y orientación.
-- **Visión Artificial**: Detección de rostros humanos utilizando un clasificador en cascada.
-- **Gestión de Estados**: Transición automática entre fases de despegue, exploración, retorno y aterrizaje.
-- **Supervisión Temporal**: Retorno automático al punto base tras el agotamiento de la bateria.
+- **Path Planning**: Generation of a square sweep trajectory over the search area.  
+- **Autonomous Flight Control**: Waypoint tracking with position and orientation control.  
+- **Computer Vision**: Human face detection using a cascade classifier.  
+- **State Management**: Automatic transition between takeoff, exploration, return, and landing phases.  
+- **Temporal Supervision**: Automatic return to the base point when the battery is depleted.
 
-## **Planificación del Barrido**
+## **Sweep Planning**
 
-El área de búsqueda se estructura como un cuadrado definido por una coordenada inicial, que se posicionara en el centro, y un tamaño lateral.  
-El dron genera un conjunto de puntos equidistantes que cubren toda la superficie, alternando la dirección de exploración entre filas para optimizar la trayectoria y evitar desplazamientos innecesarios.  
+The search area is structured as a square defined by an initial coordinate, centered at the origin, and a lateral size.  
+The drone generates a set of evenly spaced waypoints covering the entire surface, alternating the exploration direction between rows to optimize the path and avoid unnecessary displacements.  
 
-El patrón de vuelo garantiza cobertura completa con una altura constante y un ángulo de orientación calculado hacia cada nuevo objetivo. Cada punto se considera alcanzado cuando la distancia con respecto al dron es inferior a un umbral de tolerancia.
+The flight pattern ensures complete coverage with a constant altitude and an orientation angle calculated toward each new target. Each point is considered reached when the distance to the drone falls below a defined tolerance threshold.
 
-## **Conversión Geográfica**
+## **Geographical Conversion**
 
-Las coordenadas de los puntos clave, como la posición del barco base y la zona de rescate, se definen en formato de grados, minutos y segundos**(DMS)** , y son convertidas a distancias a lo largo de ejes**(UTM)**, para luego pasarlo a coordenadas cartesianas.
-Esta conversión permite calcular distancias y direcciones precisas mediante trigonometría esférica, tomando como radio de referencia el terrestre.
+The coordinates of key points, such as the base ship position and the rescue zone, are defined in **degrees, minutes, and seconds (DMS)** format and converted into **UTM** distances, which are then transformed into Cartesian coordinates.  
+This conversion allows precise calculation of distances and directions using spherical trigonometry, taking the Earth’s radius as the reference.
 
-## **Estados del Sistema**
+## **System States**
 
-El dron opera de forma secuencial según un conjunto de estados definidos:
+The drone operates sequentially according to a defined set of states:
 
 1. **TAKEOFF**  
-   El dron despega hasta una altura de operación predefinida. Dependiendo del estado de recarga o si se ha activado una interrupción, pasa a planificar o a retomar la búsqueda.
+   The drone takes off to a predefined operating altitude. Depending on the recharge status or if an interruption has been triggered, it proceeds to planning or resumes the search.
 
 2. **PLANIFICATE**  
-   Se calcula la posición del área de rescate a partir de coordenadas geográficas y se genera el patrón cuadrado de exploración.
+   The position of the rescue area is calculated from geographic coordinates, and the square exploration pattern is generated.
 
 3. **SEARCH_IT**  
-   El dron recorre la trayectoria planificada. Durante el vuelo, analiza las imágenes de su cámara ventral para identificar posibles personas mediante un modelo de detección de rostros.  
-   Se utilizan rotaciones de la imagen y filtrados en el espacio de color HSV para reducir falsos positivos y mejorar la robustez ante variaciones de iluminación.
+   The drone follows the planned trajectory. During flight, it analyzes images from its downward-facing camera to identify potential people using a face detection model.  
+   Image rotations and HSV color-space filtering are applied to reduce false positives and improve robustness against lighting variations.
 
 4. **RETURN**  
-   Una vez completada la búsqueda o si se activa la señal de bateria, el dron regresa automáticamente al punto base, siguiendo la dirección de vuelo y ajustando su orientación hacia la base.
+   Once the search is complete or the battery signal is triggered, the drone automatically returns to the base point, adjusting its orientation and flight path accordingly.
 
 5. **LAND**  
-   El dron inicia el procedimiento de aterrizaje controlado. Tras verificar la posición y mantener la estabilidad durante un tiempo mínimo, se ejecuta el aterrizaje final.
+   The drone initiates a controlled landing procedure. After verifying its position and maintaining stability for a minimum duration, the final landing is executed.
 
 6. **DONE**  
-   La misión se da por concluida cuando el número de personas detectadas alcanza el objetivo preestablecido o cuando se completa el ciclo de vuelo.  
+   The mission concludes when the number of detected people reaches the predefined target or when the flight cycle is completed.  
 
 <div style="text-align: center;">
     <img src="/assets/images/drone_states.png" alt="Drone States Diagram" />
 </div>
 
-## **Detección de Personas**
+## **Person Detection**
 
-La identificación de personas se realiza mediante un clasificador Haar Cascade entrenado para detección de rostros.  
-Durante la búsqueda, el dron analiza múltiples orientaciones de la imagen captada para aumentar la probabilidad de detección en distintos ángulos.  
-Cada detección se valida con respecto a las posiciones ya registradas para evitar duplicados en áreas cercanas.  
+Human identification is performed using a Haar Cascade classifier trained for face detection.  
+During the search, the drone analyzes multiple image orientations to increase detection probability from different angles.  
+Each detection is validated against previously registered positions to avoid duplicates in nearby areas.  
 
-Las posiciones detectadas se almacenan en una lista interna que asocia las coordenadas espaciales del dron con los puntos donde se han identificado rostros.
+Detected positions are stored in an internal list associating the drone’s spatial coordinates with the locations where faces were identified.
 
-## **Gestión de Interrupciones y Retorno Automático**
+## **Interruption Management and Automatic Return**
 
-El sistema dispone de un temporizador de seguridad que limita la duración de la misión, para simular desgaste de batería.  
-Si se supera el tiempo establecido o se detecta un evento crítico, se activa una interrupción que fuerza la transición al estado de retorno.  
-Esta medida garantiza que el dron conserve suficiente batería para completar el aterrizaje con seguridad.
+The system includes a safety timer that limits mission duration to simulate battery depletion.  
+If the set time is exceeded or a critical event is detected, an interruption is triggered to force a transition to the return state.  
+This mechanism ensures the drone preserves enough battery to complete a safe landing.
 
-## **Visualización y Supervisión**
+## **Visualization and Supervision**
 
-Durante la ejecución, las cámaras ventral y frontal se muestran en tiempo real mediante la interfaz WebGUI, lo que permite monitorizar tanto la navegación como la detección de personas.  
-Este sistema visual facilita la validación del algoritmo, la comprobación del comportamiento del dron y la revisión de su cobertura espacial.
+During execution, the downward and front cameras are displayed in real time through the WebGUI interface, allowing monitoring of both navigation and human detection.  
+This visual system facilitates algorithm validation, drone behavior verification, and spatial coverage analysis.
 
 <div style="text-align: center;">
     <img src="/assets/images/drone_cam_feed.png" alt="Drone camera feed" />
 </div>
 
-## **Conclusiones**
+## **Conclusions**
 
-El dron de búsqueda y rescate combina planificación autónoma, control de vuelo, visión artificial y supervisión en tiempo real para llevar a cabo misiones de exploración en entornos delimitados.  
-Su arquitectura basada en estados facilita la extensibilidad del sistema y permite incluir nuevas condiciones o sensores sin modificar la estructura principal.  
+The search and rescue drone combines autonomous planning, flight control, computer vision, and real-time supervision to conduct exploration missions in bounded environments.  
+Its state-based architecture enhances system extensibility, allowing new conditions or sensors to be integrated without altering the main structure.  
 
-La integración de estrategias como la planificación por barrido, el retorno automático y la detección multicriterio de rostros constituye una base sólida para futuras aplicaciones en misiones de rescate y vigilancia autónomas.
+The integration of strategies such as sweep planning, automatic return, and multicriteria face detection forms a solid foundation for future applications in autonomous rescue and surveillance missions.
