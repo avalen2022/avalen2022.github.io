@@ -56,6 +56,10 @@ The drone operates sequentially according to a defined set of states:
 6. **DONE**  
    The mission concludes when the number of detected people reaches the predefined target or when the flight cycle is completed.  
 
+<div style="text-align: center;">
+    <img src="/assets/images/Drone.drawio.png" alt="Texto alternativo" />
+</div>
+
 ## **Person Detection**
 
 Human identification is performed using a Haar Cascade classifier trained for face detection.  
