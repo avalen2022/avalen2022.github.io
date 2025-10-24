@@ -11,10 +11,6 @@ This project presents the implementation of an **autonomous search and rescue sy
 
 The main objective is to ensure systematic and efficient exploration of the environment by combining geometric planning, flight control, and visual detection through image processing.
 
-<div style="text-align: center;">
-    <img src="/assets/images/drone_sweep.png" alt="Rescue Drone Pattern" />
-</div>
-
 ## **General Strategy**
 
 The system integrates several coordinated modules:
