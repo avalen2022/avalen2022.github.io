@@ -79,7 +79,7 @@ This visual system facilitates algorithm validation, drone behavior verification
 
 <div style="display: flex; justify-content: center;">
   <video width="700" controls>
-    <source src="{{ '/assets/videos/Drone_rescue.mp4' | relative_url }}" type="video/webm">
+    <source src="{{ '/assets/videos/Drone_rescue_perfect.mp4' | relative_url }}" type="video/webm">
     Your browser does not support WebM format.
   </video>
 </div>
