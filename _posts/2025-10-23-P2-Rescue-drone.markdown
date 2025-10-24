@@ -60,10 +60,6 @@ The drone operates sequentially according to a defined set of states:
 6. **DONE**  
    The mission concludes when the number of detected people reaches the predefined target or when the flight cycle is completed.  
 
-<div style="text-align: center;">
-    <img src="/assets/images/drone_states.png" alt="Drone States Diagram" />
-</div>
-
 ## **Person Detection**
 
 Human identification is performed using a Haar Cascade classifier trained for face detection.  
@@ -82,10 +78,6 @@ This mechanism ensures the drone preserves enough battery to complete a safe lan
 
 During execution, the downward and front cameras are displayed in real time through the WebGUI interface, allowing monitoring of both navigation and human detection.  
 This visual system facilitates algorithm validation, drone behavior verification, and spatial coverage analysis.
-
-<div style="text-align: center;">
-    <img src="/assets/images/drone_cam_feed.png" alt="Drone camera feed" />
-</div>
 
 ## **Video**
 
