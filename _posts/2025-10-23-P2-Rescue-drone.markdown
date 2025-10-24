@@ -87,6 +87,15 @@ This visual system facilitates algorithm validation, drone behavior verification
     <img src="/assets/images/drone_cam_feed.png" alt="Drone camera feed" />
 </div>
 
+## **Video**
+
+<div style="display: flex; justify-content: center;">
+  <video width="700" controls>
+    <source src="{{ '/assets/videos/Drone_rescue.mp4' | relative_url }}" type="video/webm">
+    Your browser does not support WebM format.
+  </video>
+</div>
+
 ## **Conclusions**
 
 The search and rescue drone combines autonomous planning, flight control, computer vision, and real-time supervision to conduct exploration missions in bounded environments.  
