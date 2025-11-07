@@ -76,7 +76,7 @@ The full maneuver is structured as:
 
 All transitions depend exclusively on laser perception, no mapping, global navigation, or localization is required.
 
-## **TESTs**
+## **Test**
 
 The system also supports evaluation without depending on real scenario detection.  
 Through the internal variable `test_env_` you can force manually which lateral scenario the robot believes it is in.
@@ -88,6 +88,33 @@ This allows testing each branch of the maneuver logic without needing to physica
 - `[1,1]` simulates vehicles both in front and behind the spot
 
 This significantly accelerates functional testing and allows tuning before executing tests with realistic or more complex worlds.
+
+## **Video**
+
+**Both cars**
+<div style="display: flex; justify-content: center;">
+  <video width="700" controls>
+    <source src="{{ '/assets/videos/auto_park.mp4' | relative_url }}" type="video/webm">
+    Your browser does not support WebM format.
+  </video>
+</div>
+
+**Front car**
+<div style="display: flex; justify-content: center;">
+  <video width="700" controls>
+    <source src="{{ '/assets/videos/auto_park_1front.mp4' | relative_url }}" type="video/webm">
+    Your browser does not support WebM format.
+  </video>
+</div>
+
+**Back car**
+<div style="display: flex; justify-content: center;">
+  <video width="700" controls>
+    <source src="{{ '/assets/videos/auto_park_1back.mp4' | relative_url }}" type="video/webm">
+    Your browser does not support WebM format.
+  </video>
+</div>
+
 
 ## **Conclusion**
 
