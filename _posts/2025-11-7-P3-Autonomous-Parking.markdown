@@ -76,6 +76,10 @@ The full maneuver is structured as:
 
 All transitions depend exclusively on laser perception, no mapping, global navigation, or localization is required.
 
+<div style="text-align: center;">
+    <img src="/assets/images/Auto_park.png" alt="Texto alternativo" />
+</div>
+
 ## **Test**
 
 The system also supports evaluation without depending on real scenario detection.  
