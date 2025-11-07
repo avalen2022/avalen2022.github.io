@@ -5,120 +5,93 @@ date: 2025-11-07 11:00:00 +0200
 categories: service-robotics
 ---
 
-# **Controlador Autónomo de Estacionamiento**
+# **Autonomous Parking Controller**
 
-Este proyecto describe la implementación de un sistema completo para estacionamiento autónomo aplicado a robots móviles terrestres. El objetivo principal es permitir al robot desplazarse por el entorno, detectar un espacio libre a su derecha, alinearse con él y ejecutar una maniobra de estacionamiento completamente automática sin intervención humana.
+This project describes the implementation of a complete autonomous parking system applied to ground mobile robots. The main goal is to enable the robot to move through the environment, detect a free parking spot on its right side, align with it, and perform a full automatic parking maneuver with no human intervention.
 
-La arquitectura combina percepción basada en láser, control reactivo continuo sobre la orientación, y una máquina de estados encargada de seleccionar el comportamiento adecuado en cada fase de la maniobra.
+The overall architecture combines laser–based perception, continuous reactive control over orientation, and a state machine responsible for selecting the correct behavior in each stage of the maneuver.
 
-## **Estrategia General**
+## **General Strategy**
 
-El sistema trabaja de forma continua leyendo los sensores láser frontal, lateral derecho y posterior.  
-A partir de esos datos se realiza:
+The system continuously reads data from the front, right, and rear laser sensors.  
+From these scans it performs:
 
-- Corrección de posición lateral y orientación  
-- Detección de huecos aptos en el lateral derecho  
-- Clasificación del contexto de bloqueo lateral  
-- Transiciones entre fases del estacionamiento según patrones geométricos
+- Lateral correction and heading stabilization  
+- Detection of available free space on the right side  
+- Classification of lateral blocking context  
+- State transitions based on geometric patterns
 
-El control se ejecuta publicando velocidades lineales y angulares mediante HAL.
+Control is executed by publishing linear and angular velocities through HAL.
 
-## **Gestión de Sensores**
+## **Sensor Processing**
 
-Los láseres se procesan filtrando infinitos, limpiando valores inválidos y extrayendo solo el rango útil cercano al robot.  
-Esto permite convertir la nube completa de valores en información relevante como:
+Laser readings are filtered, infinite values are removed, and only valid useful ranges close to the robot are considered.  
+This allows conversion of raw scan data into relevant information such as:
 
-- Distancia lateral real al obstáculo  
-- Cercanía frontal o trasera  
-- Ángulos con mínimos locales para detectar extremos útiles geométricamente
+- Real lateral distance to obstacles  
+- Frontal/rear proximity  
+- Angular minimum patterns for geometric reasoning
 
-## **Corrección de Lateralidad**
+## **Lateral Stabilization**
 
-El robot mantiene su posición lateral estable mientras circula buscando plaza.  
-Se combinan diferencias entre frontal, posterior y rango derecho central para mantener la trayectoria paralela a la calle de forma continua y reactiva.
+While searching for a spot, the robot keeps a stable lateral distance to the side.  
+This is done by combining front, back and center-right differences to maintain a parallel trajectory relative to the street.
 
-## **Clasificación del Entorno**
+## **Environment Classification**
 
-Cuando el sistema detecta que existe una plaza potencial a la **derecha** del robot, se analiza el contexto lateral para entender qué tipo de maniobra debe ejecutarse.
+Once the system detects a potential parking space on the **right** side of the robot, it analyzes the lateral context to determine which variant of parking maneuver should be executed.
 
-Lo que se determina es si al lado derecho existen vehículos:
+The classification determines if on the right side there are vehicles:
 
-- Delante del hueco  
-- Detrás del hueco  
-- En ambos lados del hueco
+- In front of the parking gap  
+- Behind the parking gap  
+- On both sides of the parking gap
 
-Esta clasificación permite seleccionar la variante correcta de secuencia de estacionamiento, adaptando correcciones y dirección de giro según el escenario.
+This allows the controller to choose the correct parking sequence variant, adapting steering direction and geometry to the scenario.
 
-## **Máquina de Estados**
+## **State Machine**
 
-La maniobra completa se estructura en varias fases:
+The full maneuver is structured as:
 
 1. **SEARCHING**  
-   Circula recto y regulado lateralmente hasta encontrar una plaza apta según láser derecho.
+   Drives forward while maintaining lateral regulation until a valid spot is found.
 
 2. **MOVE_CARS**  
-   Espera estable antes de iniciar la alineación para permitir movimiento externo de coches o estabilización del entorno.
+   Waits stable before starting alignment to allow external vehicle motion or scenario stabilization.
 
 3. **ALIGN**  
-   Ajuste inicial de posición antes de iniciar la maniobra.
+   Initial alignment before starting the backup turn.
 
 4. **F_PARKING**  
-   Primera fase de entrada hacia el interior del hueco.
+   First steering movement into the parking gap.
 
 5. **S_PARKING**  
-   Corrección inversa y profundización del estacionamiento formando la “S”.
+   Inverse steering correction finishing the “S” shape.
 
 6. **S_ALIGN**  
-   Alineación fina interna hasta estar completamente dentro.
+   Final alignment phase inside the parking spot.
 
 7. **FINISHED**  
-   Estacionamiento completado.
+   Parking completed.
 
-Todas las transiciones dependen exclusivamente de observación láser, no requiere mapas, ni referencia absoluta.
+All transitions depend exclusively on laser perception, no mapping, global navigation, or localization is required.
 
-## **Test**
+## **TESTs**
 
-El sistema también permite validar comportamiento sin depender de detección real del entorno.  
-A través de la variable interna `test_env_` se puede forzar manualmente el tipo de escenario lateral que el robot cree estar percibiendo.
+The system also supports evaluation without depending on real scenario detection.  
+Through the internal variable `test_env_` you can force manually which lateral scenario the robot believes it is in.
 
-De esta forma se puede probar y depurar cada caso de maniobra sin necesidad de mover coches ni cambiar la configuración de la escena:
+This allows testing each branch of the maneuver logic without needing to physically move cars inside the simulator:
 
-- `[1,0]` fuerza caso donde hay un vehículo delante del hueco derecho  
-- `[0,1]` fuerza caso donde hay un vehículo detrás  
-- `[1,1]` indica que existen vehículos tanto delante como detrás de la plaza  
+- `[1,0]` simulates a vehicle in front of the parking right side  
+- `[0,1]` simulates a vehicle behind  
+- `[1,1]` simulates vehicles both in front and behind the spot
 
-Esto acelera el proceso de verificación y permite ajustar parámetros antes de realizar validaciones en escenarios reales o más complejos.
+This significantly accelerates functional testing and allows tuning before executing tests with realistic or more complex worlds.
 
-## **Video**
+## **Conclusion**
 
-**Both cars**
-<div style="display: flex; justify-content: center;">
-  <video width="700" controls>
-    <source src="{{ '/assets/videos/auto_park.mp4' | relative_url }}" type="video/webm">
-    Your browser does not support WebM format.
-  </video>
-</div>
+This autonomous parking controller provides a practical and self–contained solution for parking in mobile robots.  
+Its reactive perception-driven architecture and state machine design enable robust behavior without complex planning systems.
 
-**Front car**
-<div style="display: flex; justify-content: center;">
-  <video width="700" controls>
-    <source src="{{ '/assets/videos/auto_park_1front.mp4' | relative_url }}" type="video/webm">
-    Your browser does not support WebM format.
-  </video>
-</div>
-
-**Back car**
-<div style="display: flex; justify-content: center;">
-  <video width="700" controls>
-    <source src="{{ '/assets/videos/auto_park_1back.mp4' | relative_url }}" type="video/webm">
-    Your browser does not support WebM format.
-  </video>
-</div>
-
-## **Conclusión**
-
-Este controlador demuestra un enfoque práctico para estacionamiento automático en robots móviles.  
-Su diseño reactivo, basado en percepción directa y máquina de estados, permite comportamientos robustos y extensibles sin planificación global.
-
-Su simplicidad estructural lo hace ideal para aplicaciones de AGV, robots urbanos experimentales y validación de conceptos industriales de navegación autónoma urbana.
-
+Its lightweight structure is ideal for AGV applications, experimental urban robotics, and industrial autonomous navigation research.
