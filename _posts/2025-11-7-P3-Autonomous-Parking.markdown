@@ -49,6 +49,20 @@ The classification determines if on the right side there are vehicles:
 
 This allows the controller to choose the correct parking sequence variant, adapting steering direction and geometry to the scenario.
 
+## **Gap Detection with Trigonometry**
+
+To verify if the parking gap is truly usable, the system checks whether a rectangle equivalent to the parking dimensions (`PARKING_SIZE`) could physically fit inside that space.
+
+Using the lateral distance measured by the right laser, the controller calculates the angular region that represents the potential volume of the parking slot. Through trigonometric relations, the diagonal of that rectangle is obtained, representing the maximum spatial ray that should remain unobstructed. Si todas las lecturas dentro de ese rango angular son mayores que esta diagonal, significa que el robot puede entrar sin colisión.
+
+Una vez que esta condición se cumple, el hueco se valida y se pasa a la fase de alineación.
+
+
+<div style="text-align: center;">
+    <img src="/assets/images/gap_trig.png" alt="Texto alternativo" />
+</div>
+
+
 ## **State Machine**
 
 The full maneuver is structured as:
@@ -119,10 +133,10 @@ This significantly accelerates functional testing and allows tuning before execu
   </video>
 </div>
 
-
 ## **Conclusion**
 
 This autonomous parking controller provides a practical and self–contained solution for parking in mobile robots.  
 Its reactive perception-driven architecture and state machine design enable robust behavior without complex planning systems.
 
 Its lightweight structure is ideal for AGV applications, experimental urban robotics, and industrial autonomous navigation research.
+
