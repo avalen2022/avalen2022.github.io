@@ -99,15 +99,12 @@ The WebGUI interface shows:
 
 **Holonomic Robot**
 <div style="display: flex; justify-content: center;">
-  <video width="700" controls>
-    <source src="{{ '/assets/videos/BEST_HOLONOMIC.mp4' | relative_url }}" type="video/webm">
-    Your browser does not support WebM format.
-  </video>
+  <iframe width="700" height="394" src="https://www.youtube.com/watch?v=THtjO0i5f7k" frameborder="0" allowfullscreen></iframe>
 </div>
 
 **Ackermann Robot**
 <div style="display: flex; justify-content: center;">
-  <iframe width="700" height="394" src="https://youtu.be/gq3E_x_AsTk" frameborder="0" allowfullscreen></iframe>
+  <iframe width="700" height="394" src="https://www.youtube.com/watch?v=gq3E_x_AsTk" frameborder="0" allowfullscreen></iframe>
 </div>
 
 
