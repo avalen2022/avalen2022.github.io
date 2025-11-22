@@ -99,14 +99,13 @@ The WebGUI interface shows:
 
 **Holonomic Robot**
 <div style="display: flex; justify-content: center;">
-  <iframe width="700" height="394" src="https://youtu.be/THtjO0i5f7k?si=msZVgzpyKpk2AH8l" frameborder="0" allowfullscreen></iframe>
+  <iframe width="700" height="394" src="https://www.youtube.com/embed/THtjO0i5f7k" frameborder="0" allowfullscreen></iframe>
 </div>
 
 **Ackermann Robot**
 <div style="display: flex; justify-content: center;">
-  <iframe width="700" height="394" src="https://youtu.be/gq3E_x_AsTk?si=uT0s7tRORghEC0_w" frameborder="0" allowfullscreen></iframe>
+  <iframe width="700" height="394" src="https://www.youtube.com/embed/gq3E_x_AsTk" frameborder="0" allowfullscreen></iframe>
 </div>
-
 
 ## **Conclusions**
 
