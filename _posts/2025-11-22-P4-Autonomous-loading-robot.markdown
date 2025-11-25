@@ -25,7 +25,7 @@ The architecture integrates several modules:
 
 The robot relies on a map image of the warehouse. Several transformations are applied:
 
-1. **Map Inflation**: Obstacles are expanded by the robot radius to ensure safe navigation.  
+1. **Map Inflation**: Obstacles are expanded by the robot radius to ensure safe navigation, if it's necessary.  
 2. **Numpy Adaptation**: The map is converted to numerical arrays for easy computation, where free space and obstacles are encoded with distinct intensity values.  
 3. **Coordinate Transformations**: Functions convert between **world coordinates** and **map pixels**, enabling accurate collision checks and path visualization.
 
@@ -84,7 +84,7 @@ The robot’s behavior is coordinated by the following states:
 The FSM ensures robust sequencing of actions and allows the robot to autonomously cycle between multiple pickup and drop locations.
 
 <div style="text-align: center;">
-    <img src="/assets/images/warehouse_robot.png" alt="Autonomous loading robot path visualization" />
+    <img src="/assets/images/Warehouse.png" alt="Autonomous loading robot path visualization" />
 </div>
 
 ## **Visualization and Supervision**
