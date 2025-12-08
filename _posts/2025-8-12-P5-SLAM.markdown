@@ -1,0 +1,113 @@
+---
+layout: post
+title: "P5-Autonomous-Mapping"
+date: 2025-12-08 11:00:00 +0200
+categories: service-robotics
+---
+
+# **Autonomous Mapping**
+
+This work presents the design of an autonomous robot capable of **exploring an unknown environment**, continuously building a navigable map, and moving toward newly discovered targets using **Breadth-First Search (BFS)**. The system integrates laser perception, dynamic map construction, reactive navigation, and automatic collision avoidance.
+
+The goal is to achieve fully independent behavior where the robot identifies traversable areas, evaluates safety, generates local goals, and travels to them while actively avoiding nearby obstacles.
+
+## **General Goal**
+
+The robot operates without predefined waypoints or prior maps.  
+Its mission is to:
+
+- **Explore the environment while mapping obstacles in real time.**
+- **Identify safe regions distant from the robot and navigate toward them.**
+- **Avoid collisions and redirect its route when obstacles are detected.**
+- **Update the map and goal positions throughout the process.**
+
+This enables free exploration and progressive expansion of the mapped environment with no supervision.
+
+## **Map Generation**
+
+The map is represented as an intensity grid:
+
+| Value | Meaning |
+|---|---|
+| `0` | obstacle detected |
+| `>0` | free space, brighter = more frequently observed |
+
+The laser sensor reconstructs the environment through a full angular sweep:
+
+1. Each ray advances in discrete steps, increasing intensity on free cells.  
+2. If an obstacle is detected, that cell is penalized by lowering intensity.  
+3. The map is published to **WebGUI** as a *user map* viewable in real time.
+
+The result is a continuous map where frequently observed areas appear brighter, and collision zones appear darker.
+
+## **Intelligent Goal Selection**
+
+The navigation engine runs a **radial BFS** from the robot’s current position.  
+It searches for a cell that meets:
+
+✔ safe minimum distance from the robot  
+✔ free region surrounding the target area  
+✔ unobstructed path from origin to goal  
+
+BFS returns two coordinates:
+
+- a **mid target** for smoother trajectory
+- a **final target** that optimally expands the exploration frontier
+
+The robot moves toward the mid target first, then proceeds to the final target, gradually increasing the mapped region.
+
+## **Motion Control**
+
+Movement relies on reactive orientation:
+
+- The relative angle between robot and target is computed.
+- If the angular error is high → rotation only.
+- If alignment is achieved → forward velocity is applied.
+
+When half the route is completed, the goal automatically switches to the final target.  
+If the target area becomes unsafe, it is discarded and BFS selects a new one.
+
+## **Active Obstacle Avoidance**
+
+A front-safety module ensures collision prevention:
+
+If the laser detects a close obstacle within a narrow angular window, navigation is suspended and avoidance mode starts:
+
+| Stage | Action |
+|---|---|
+| phase 1 ~ rotation | in-place turn to open space |
+| phase 2 ~ short forward motion | lateral escape from obstacle |
+| phase 3 | return to navigation mode |
+
+This sequence improves stability and provides fast reactions in confined areas.
+
+## **Visualization**
+
+The interface displays:
+
+- the full map updated live  
+- robot and targets highlighted as markers  
+- exploration trail and processed goal points  
+
+This makes it easy to monitor exploration and understand how BFS drives spatial expansion.
+
+## **Video**
+
+**SLAM**
+<div style="display: flex; justify-content: center;">
+  <iframe width="700" height="394" src="https://www.youtube.com/embed/9s7i0ycGTtQ" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+## **Conclusion**
+
+This robot establishes a robust foundation for autonomous exploration and surveillance in unknown environments.  
+Its achieved capabilities include:
+
+- incremental laser-based mapping with continuous reconstruction  
+- autonomous BFS-based target generation  
+- reactive motion driven by angular error  
+- immediate avoidance of close obstacles  
+
+The system is independent of prior maps or predefined routes, making it light, scalable, and suitable for real-world exploration and search applications.
+
