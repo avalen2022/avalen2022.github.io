@@ -7,89 +7,83 @@ categories: service-robotics
 
 # **Autonomous Mapping**
 
-This work presents the design of an autonomous robot capable of **exploring an unknown environment**, continuously building a navigable map, and moving toward newly discovered targets using **Breadth-First Search (BFS)**. The system integrates laser perception, dynamic map construction, reactive navigation, and automatic collision avoidance.
+Este trabajo presenta un robot autónomo capaz de **explorar un entorno desconocido**, construir un mapa navegable en tiempo real y desplazarse hacia objetivos recién descubiertos usando **Breadth-First Search (BFS)**. El sistema combina percepción láser, construcción dinámica de mapas, navegación reactiva y evasión automática de obstáculos.
 
-The goal is to achieve fully independent behavior where the robot identifies traversable areas, evaluates safety, generates local goals, and travels to them while actively avoiding nearby obstacles.
+El objetivo es lograr un comportamiento completamente independiente, donde el robot identifica áreas transitables, evalúa seguridad, genera objetivos locales y se dirige hacia ellos evitando colisiones.
 
-## **General Goal**
+## **Objetivo General**
 
-The robot operates without predefined waypoints or prior maps.  
-Its mission is to:
+El robot opera sin puntos predefinidos ni mapas previos. Su misión consiste en:
 
-- **Explore the environment while mapping obstacles in real time.**
-- **Identify safe regions distant from the robot and navigate toward them.**
-- **Avoid collisions and redirect its route when obstacles are detected.**
-- **Update the map and goal positions throughout the process.**
+- **Explorar el entorno mientras genera un mapa dinámico de obstáculos.**
+- **Identificar regiones seguras alejadas del robot y desplazarse hacia ellas.**
+- **Evitar colisiones y redirigir la ruta al detectar obstáculos.**
+- **Actualizar el mapa y los objetivos de forma continua.**
 
-This enables free exploration and progressive expansion of the mapped environment with no supervision.
+Esto permite exploración libre y expansión progresiva del mapa sin supervisión.
 
-## **Map Generation**
+## **Generación del Mapa**
 
-The map is represented as an intensity grid:
+El mapa se representa como una **matriz `numpy` de 8 bits**, donde cada celda almacena un valor de intensidad:
 
-| Value | Meaning |
+| Valor | Significado |
 |---|---|
-| `0` | obstacle detected |
-| `>0` | free space, brighter = more frequently observed |
+| `0` | obstáculo detectado |
+| `>0` | espacio libre, más brillante = más observado |
 
-The laser sensor reconstructs the environment through a full angular sweep:
+Cada barrido del láser actualiza la matriz:
 
-1. Each ray advances in discrete steps, increasing intensity on free cells.  
-2. If an obstacle is detected, that cell is penalized by lowering intensity.  
-3. The map is published to **WebGUI** as a *user map* viewable in real time.
+1. Cada rayo avanza en pasos discretos, aumentando la intensidad de celdas libres.  
+2. Si se detecta un obstáculo, la celda se penaliza disminuyendo la intensidad.  
+3. La matriz se publica en **WebGUI**, permitiendo visualizar el mapa en tiempo real.
 
-The result is a continuous map where frequently observed areas appear brighter, and collision zones appear darker.
+Se utiliza un **modelo logístico** (`inc()`) para actualizar las intensidades, limitando cambios extremos y evitando saturación.
 
-## **Intelligent Goal Selection**
+## **Selección Inteligente de Objetivos**
 
-The navigation engine runs a **radial BFS** from the robot’s current position.  
-It searches for a cell that meets:
+El motor de navegación ejecuta un **BFS radial** desde la posición actual del robot. Busca una celda que cumpla:
 
-✔ safe minimum distance from the robot  
-✔ free region surrounding the target area  
-✔ unobstructed path from origin to goal  
+✔ distancia mínima segura desde el robot  
+✔ región libre alrededor del objetivo  
+✔ trayectoria sin obstáculos desde el origen  
 
-BFS returns two coordinates:
+El BFS devuelve:
 
-- a **mid target** for smoother trajectory
-- a **final target** that optimally expands the exploration frontier
+- un **mid target** para suavizar la trayectoria  
+- un **final target** que expande óptimamente el frente de exploración  
 
-The robot moves toward the mid target first, then proceeds to the final target, gradually increasing the mapped region.
+Se priorizan celdas dentro de un rango de intensidad (`colors=[100,200]`) y áreas consideradas seguras por la función `is_safe()`.
 
-## **Motion Control**
+## **Control de Movimiento**
 
-Movement relies on reactive orientation:
+El movimiento depende de la orientación relativa al objetivo:
 
-- The relative angle between robot and target is computed.
-- If the angular error is high → rotation only.
-- If alignment is achieved → forward velocity is applied.
+- Si el error angular es alto → solo rotación  
+- Si está alineado → se aplica velocidad hacia adelante  
 
-When half the route is completed, the goal automatically switches to the final target.  
-If the target area becomes unsafe, it is discarded and BFS selects a new one.
+Cuando se alcanza la mitad de la ruta, el objetivo cambia automáticamente al final target. Si el área objetivo se vuelve insegura, se descarta y BFS selecciona un nuevo destino.
 
-## **Active Obstacle Avoidance**
+## **Evasión Activa de Obstáculos**
 
-A front-safety module ensures collision prevention:
+Un módulo frontal garantiza la prevención de colisiones:
 
-If the laser detects a close obstacle within a narrow angular window, navigation is suspended and avoidance mode starts:
-
-| Stage | Action |
+| Fase | Acción |
 |---|---|
-| phase 1 ~ rotation | in-place turn to open space |
-| phase 2 ~ short forward motion | lateral escape from obstacle |
-| phase 3 | return to navigation mode |
+| 1 ~ rotación | giro en el lugar para abrir espacio |
+| 2 ~ avance corto | desplazamiento lateral para escapar del obstáculo |
+| 3 | retorno a modo navegación |
 
-This sequence improves stability and provides fast reactions in confined areas.
+Los tiempos de cada fase (`avoid_f`, `avoid_s`) son parametrizables, ofreciendo adaptabilidad a distintos entornos.
 
-## **Visualization**
+## **Visualización**
 
-The interface displays:
+La interfaz muestra:
 
-- the full map updated live  
-- robot and targets highlighted as markers  
-- exploration trail and processed goal points  
+- mapa completo actualizado en tiempo real  
+- robot y objetivos resaltados  
+- trayectoria de exploración y puntos procesados por BFS  
 
-This makes it easy to monitor exploration and understand how BFS drives spatial expansion.
+Esto permite monitorear fácilmente la exploración y entender cómo BFS guía la expansión espacial.
 
 ## **Video**
 
@@ -98,16 +92,13 @@ This makes it easy to monitor exploration and understand how BFS drives spatial 
   <iframe width="700" height="394" src="https://www.youtube.com/embed/9s7i0ycGTtQ" frameborder="0" allowfullscreen></iframe>
 </div>
 
+## **Conclusión**
 
-## **Conclusion**
+Este robot establece una base robusta para exploración y vigilancia autónoma en entornos desconocidos. Sus capacidades incluyen:
 
-This robot establishes a robust foundation for autonomous exploration and surveillance in unknown environments.  
-Its achieved capabilities include:
+- mapeo incremental con láser y reconstrucción continua  
+- generación autónoma de objetivos mediante BFS  
+- control reactivo basado en error angular  
+- evasión inmediata de obstáculos cercanos  
 
-- incremental laser-based mapping with continuous reconstruction  
-- autonomous BFS-based target generation  
-- reactive motion driven by angular error  
-- immediate avoidance of close obstacles  
-
-The system is independent of prior maps or predefined routes, making it light, scalable, and suitable for real-world exploration and search applications.
-
+El sistema es independiente de mapas previos o rutas predefinidas, siendo ligero, escalable y apto para exploración y búsqueda en entornos reales.
