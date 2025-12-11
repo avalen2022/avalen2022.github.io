@@ -35,7 +35,8 @@ Cada barrido del láser actualiza la matriz:
 
 1. Cada rayo avanza en pasos discretos, aumentando la intensidad de celdas libres.  
 2. Si se detecta un obstáculo, la celda se penaliza disminuyendo la intensidad.  
-3. La matriz se publica en **WebGUI**, permitiendo visualizar el mapa en tiempo real.
+3. La actualización del mapa se realiza **solo cuando el robot se ha desplazado suficientemente** desde la última posición registrada, evitando recalcular innecesariamente zonas ya exploradas.  
+4. La matriz se publica en **WebGUI**, permitiendo visualizar el mapa en tiempo real.
 
 Se utiliza un **modelo logístico** (`inc()`) para actualizar las intensidades, limitando cambios extremos y evitando saturación.
 
@@ -87,10 +88,12 @@ Esto permite monitorear fácilmente la exploración y entender cómo BFS guía l
 
 ## **Video**
 
-**SLAM**
+**SLAM INTENSITY**
 <div style="display: flex; justify-content: center;">
   <iframe width="700" height="394" src="https://www.youtube.com/embed/9s7i0ycGTtQ" frameborder="0" allowfullscreen></iframe>
 </div>
+
+**SLAM PROBABILISTIC INTENSITY**
 
 ## **Conclusión**
 
