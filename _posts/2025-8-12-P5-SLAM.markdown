@@ -94,6 +94,9 @@ Esto permite monitorear fácilmente la exploración y entender cómo BFS guía l
 </div>
 
 **SLAM PROBABILISTIC INTENSITY**
+<div style="display: flex; justify-content: center;">
+  <iframe width="700" height="394" src="https://www.youtube.com/embed/rzXXaRrLl6I" frameborder="0" allowfullscreen></iframe>
+</div>
 
 ## **Conclusión**
 
